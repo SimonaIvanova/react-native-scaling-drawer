@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, {PropTypes, Component} from 'react';
 import {
+  StatusBar,
   StyleSheet,
   View,
   Animated,
@@ -8,7 +8,11 @@ import {
   Dimensions,
   Easing
 } from 'react-native';
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
+const height = Platform.OS !== 'ios' && Dimensions.get('screen').height !== Dimensions.get('window').height 
+              && StatusBar.currentHeight > 24 
+              ? Dimensions.get('screen').height - StatusBar.currentHeight 
+              : Dimensions.get('window').height;
 
 class SwipeAbleDrawer extends Component {
   static defaultProps = {
