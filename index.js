@@ -1,4 +1,4 @@
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
 import {
   StatusBar,
   StyleSheet,
@@ -251,11 +251,11 @@ const floatRange = (props, propName, componentName) => {
 SwipeAbleDrawer.propTypes = {
   scalingFactor: floatRange,
   minimizeFactor: floatRange,
-  swipeOffset: PropTypes.number,
-  position: PropTypes.oneOf(['right', 'left']),
-  contentWrapperStyle: PropTypes.object,
-  frontStyle: PropTypes.object,
-  content: PropTypes.element
+  swipeOffset: Number,
+  position:'right'||'left',
+  contentWrapperStyle: Object,
+  frontStyle: Object,
+  content: Object
 };
 SwipeAbleDrawer.defaultProps = {
   position:'left'
