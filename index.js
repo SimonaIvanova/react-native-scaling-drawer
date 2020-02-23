@@ -26,6 +26,10 @@ class SwipeAbleDrawer extends Component {
     this.state = {
       isOpen: false,
       dims: Dimensions.get("window"),
+      heightInner: Platform.OS !== 'ios' && Dimensions.get('screen').height !== Dimensions.get('window').height 
+              && StatusBar.currentHeight > 24 
+              ? Dimensions.get('window').height + StatusBar.currentHeight 
+              : Dimensions.get('window').height
     };
     if(this.props.position==='right'){
       this.isPositionRight= true
@@ -46,7 +50,19 @@ class SwipeAbleDrawer extends Component {
     Dimensions.addEventListener("change", this.dimhandler);
   }
 
-  dimhandler = dims => this.setState({dims: dims.window});
+  updateDims = dims => {
+    const height = Platform.OS !== 'ios' && dims.get('screen').height !== dims.get('window').height 
+    && StatusBar.currentHeight > 24 
+    ? dims.get('window').height + StatusBar.currentHeight 
+    : dims.get('window').height;
+
+    this.setState({
+        dims: dims.window,
+        heightInner:height
+    })
+  }
+
+  dimhandler = dims => this.updateDims(dims);
 
   blockSwipeAbleDrawer = (isBlock) => {
     this.isBlockDrawer = isBlock;
@@ -188,7 +204,7 @@ class SwipeAbleDrawer extends Component {
           {...this.panResponder.panHandlers}
           ref={ref => this.frontRef = ref}
           style={[styles.front, {
-            height:this.state.dims.height,
+            height:this.state.heightInner,
             transform: [{translateX}, {scale}]
           },
             styles.shadow,
@@ -198,7 +214,7 @@ class SwipeAbleDrawer extends Component {
           {this.props.children}
           {this.state.isOpen && <View style={styles.mask}/>}
         </Animated.View>
-        <View style={[styles.drawer, this.props.contentWrapperStyle,{height:this.state.dims.height, width: this.state.dims.width}]}>
+        <View style={[styles.drawer, this.props.contentWrapperStyle,{height:this.state.heightInner, width: this.state.dims.width}]}>
           {this.props.content}
         </View>
       </View>
