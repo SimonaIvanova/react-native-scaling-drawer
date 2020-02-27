@@ -51,10 +51,10 @@ class SwipeAbleDrawer extends Component {
   }
 
   updateDims = dims => {
-    const height = Platform.OS !== 'ios' && dims.get('screen').height !== dims.get('window').height 
+    const height = Platform.OS !== 'ios' && dims.screen.height !== dims.window.height 
     && StatusBar.currentHeight > 24 
-    ? dims.get('window').height + StatusBar.currentHeight 
-    : dims.get('window').height;
+    ? dims.window.height + StatusBar.currentHeight 
+    : dims.window.height;
 
     this.setState({
         dims: dims.window,
